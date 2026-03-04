@@ -17,9 +17,9 @@ public class AuthController {
 
     /**
      * User registration endpoint
-     * POST /api/auth/signup
+     * POST /api/auth/register
      */
-    @PostMapping("/signup")
+    @PostMapping("/register")
     public ResponseEntity<?> signUp(@Valid @RequestBody AuthDto.SignUpRequest request) {
         try {
             AuthDto.AuthResponse response = authService.signUp(request);
