@@ -20,16 +20,13 @@ public class AuthDto {
         @Email(message = "Email should be valid")
         private String email;
 
-        @NotBlank(message = "Username is required")
-        @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
-        private String username;
+        @NotBlank(message = "Full name is required")
+        @Size(min = 3, max = 50, message = "Full name must be between 3 and 50 characters")
+        private String fullName;
 
         @NotBlank(message = "Password is required")
         @Size(min = 6, message = "Password must be at least 6 characters")
         private String password;
-
-        @NotBlank(message = "Confirm password is required")
-        private String confirmPassword;
     }
 
     @Data
@@ -37,8 +34,9 @@ public class AuthDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class LoginRequest {
-        @NotBlank(message = "Email or username is required")
-        private String emailOrUsername;
+        @NotBlank(message = "Email is required")
+        @Email(message = "Email should be valid")
+        private String email;
 
         @NotBlank(message = "Password is required")
         private String password;

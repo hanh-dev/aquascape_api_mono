@@ -31,25 +31,21 @@ public class AuthService {
      * Register a new user
      */
     public AuthDto.AuthResponse signUp(AuthDto.SignUpRequest request) {
-        // Validate input
-        if (!request.getPassword().equals(request.getConfirmPassword())) {
-            throw new IllegalArgumentException("Passwords do not match");
-        }
 
         // Check if email already exists
         if (authRepository.existsByEmail(request.getEmail())) {
             throw new IllegalArgumentException("Email is already registered");
         }
 
-        // Check if username already exists
-        if (authRepository.existsByUsername(request.getUsername())) {
-            throw new IllegalArgumentException("Username is already taken");
+        // Check if full name already exists
+        if (authRepository.existsByUsername(request.getFullName())) {
+            throw new IllegalArgumentException("Full name is already taken");
         }
 
         // Create new user
         Auth user = Auth.builder()
                 .email(request.getEmail())
-                .username(request.getUsername())
+                .username(request.getFullName())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .isActive(true)
                 .build();
@@ -75,13 +71,11 @@ public class AuthService {
      * Login user with email/username and password
      */
     public AuthDto.AuthResponse login(AuthDto.LoginRequest request) {
-        // Find user by email or username
-        Optional<Auth> userOptional = authRepository.findByEmailOrUsername(
-                request.getEmailOrUsername(),
-                request.getEmailOrUsername());
-
+        // Find user by email or full name
+        Optional<Auth> userOptional = authRepository.findByEmail(
+                request.getEmail());
         if (userOptional.isEmpty()) {
-            throw new IllegalArgumentException("Email/username or password is incorrect");
+            throw new IllegalArgumentException("Email/full name or password is incorrect");
         }
 
         Auth user = userOptional.get();
