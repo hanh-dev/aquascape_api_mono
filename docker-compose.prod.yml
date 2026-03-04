@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  spring-app:
+    image: hanhdev764/aquascape-api:latest
+    container_name: aquascape-api
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:5432/${DB_NAME}?sslmode=require
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "false"
+    networks:
+      - auth-network
+    restart: always
+
+networks:
+  auth-network:
+    driver: bridge
